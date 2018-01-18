@@ -1,0 +1,22 @@
+<mat-grid-list cols="2" rowHeight="3:1" >
+  <mat-grid-tile *ngFor="let p of products">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image">
+          <img src="{{urlS}}{{p.logo}}">
+        </div>
+        <mat-card-title>{{p.name}}</mat-card-title>
+        <mat-card-subtitle>{{p.quantite}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        {{p.revenu}} $
+        <mat-progress-bar>
+        </mat-progress-bar>
+        {{p.timeleft}}
+      </mat-card-content>
+      <mat-card-actions>
+          <button mat-raised-button color="warn">{{p.cout}} $</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

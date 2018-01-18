@@ -1,0 +1,14 @@
+<mat-toolbar color="primary">
+    <span mat-button>{{game}}</span>
+
+    <!-- This fills the remaining space of the current row -->
+    <span class="fill-remaining-space"></span>
+    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
+        <button mat-button routerLink="/products">{{score}} $</button>
+    </div>
+    <span class="fill-space"></span>
+    <button mat-raised-button fxHide="false" fxHide.gt-sm color="warn">
+        <span layout-align="center">x 1</span>
+    </button>
+
+</mat-toolbar>
