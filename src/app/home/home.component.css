@@ -1,7 +1,17 @@
-mat-card{
-    width: 80%;;
+.mat-card{
+    width: 80%;
+}
+.mat-card-header{
+    margin-bottom: 1%;
+}
+.headC{
+    padding-left: 5%;
+}
+.productBuy{
+    width:100%;
 }
 
-figure{
-    padding-top: 0px;
+.zero {
+    cursor: not-allowed;
+    opacity: 0.5;
 }

@@ -11,48 +11,49 @@ import { AppService } from '../app.service';
 export class NavbarComponent implements OnInit {
 
 
-    world : World;
-    game: string;
-    score:number;
+  world: World;
+  game: string;
+  score: number;
+  multi: string;
 
-    constructor(private appService : AppService) { }
-  
-    ngOnInit() {
-      this.appService.getWorld().subscribe(data => {
-        this.game = data.name;
-        this.score = data.money;
-        }, err => {
-          console.log(err);
-        });
-        this.calcScore();
-    }
+  constructor(private appService: AppService) { }
 
-  interval = 10;
-  
-  money = 0;
-  nb = 0;
-  niv ="";
+  ngOnInit() {
 
-  calcScore() {
-      setInterval(() => {
-      this.money = this.money + 1;
-      this.nb = this.money;
-        if (this.money == 1000) {
-          this.nb = this.formatNumber(this.nb) ;
-          this.niv = "K";
-        } 
-      }, this.interval);
+    this.appService.getWorld().subscribe(data => {
+      this.game = data.name;
+      this.score = data.money;
+    });
+    this.multi = "1";
   }
 
+  upMulti():void {
+    switch (this.multi) {
+      case "1":
+        this.multi = "10";
+        break;
+      case "10":
+        this.multi = "100";
+        break;
+      case "100":
+        this.multi = "MAX";
+        break;
+      case "MAX":
+        this.multi = "1";
+        break;
+    }
+  };
+
+
   formatNumber(number) {
-    if(number < 1000)
-        number = number.toFixed(2);
-    else if(number < 1000000)
-        number = number.toFixed(0);
-    else if(number >= 1000000) {
-        number = number.toPrecision(4);
-        number = number.replace(/e\+(.*)/, "x10<sup>$1</sup>");
+    if (number < 1000)
+      number = number.toFixed(2);
+    else if (number < 1000000)
+      number = number.toFixed(0);
+    else if (number >= 1000000) {
+      number = number.toPrecision(4);
+      number = number.replace(/e\+(.*)/, "x10<sup>$1</sup>");
     }
     return number;
-}
+  }
 }

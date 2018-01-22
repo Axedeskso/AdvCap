@@ -11,7 +11,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { HomeComponent } from './home/home.component';
 import { AppService } from './app.service';
 import { UnlockComponent } from './unlock/unlock.component';
-import { UnlockModalComponent } from './unlock-modal/unlock-modal.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }
@@ -24,7 +23,6 @@ const appRoutes: Routes = [
     NavbarComponent,
     HomeComponent,
     UnlockComponent,
-    UnlockModalComponent
   ],
   imports: [
     BrowserModule,
@@ -38,8 +36,5 @@ const appRoutes: Routes = [
   ],
   providers: [AppService],
   bootstrap: [AppComponent],
-  entryComponents: [
-    UnlockModalComponent
-]
 })
 export class AppModule { }

@@ -1,7 +1,7 @@
-<mat-toolbar color="primary">
+<!--<mat-toolbar color="primary">
     <span mat-button>{{game}}</span>
 
-    <!-- This fills the remaining space of the current row -->
+    This fills the remaining space of the current row
     <span class="fill-remaining-space"></span>
     <div fxLayout="row" fxShow="false" fxShow.gt-sm>
         <button mat-button routerLink="/products">{{score}} $</button>
@@ -12,3 +12,19 @@
     </button>
 
 </mat-toolbar>
+-->
+<nav class="navbar navbar-inverse bg-sucess">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">{{game}}</a>
+        </div>
+        <div class="navbar-right">
+            <span class="text-warning">
+                <b>{{score}} $</b>
+            </span>
+            <button (click)="upMulti()" class="btn btn-danger">
+                <span>x {{multi}}</span>
+            </button>
+        </div>
+    </div>
+</nav>
