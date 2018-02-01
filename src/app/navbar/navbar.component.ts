@@ -1,59 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { World } from '../world';
-import { AppService } from '../app.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { GlobalService } from '../global.service';
+import { AppComponent } from '../app.component';
 
 @Component({
-  selector: 'navbar',
+  selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-
 export class NavbarComponent implements OnInit {
 
-
-  world: World;
+  url:string;
   game: string;
-  score: number;
+  logo:string;
+  money: number;
   multi: string;
 
-  constructor(private appService: AppService) { }
+  @Input()
+  set qtmulti(value:string){
+    this.multi=value;
+  }
+
+  constructor(private service: GlobalService) {
+    this.url = service.url;
+    this.service.getWorld().subscribe(data => {
+      this.game = data.name;
+      this.logo = this.url+""+data.logo;
+      this.money = data.money;
+    });    
+  }
 
   ngOnInit() {
-
-    this.appService.getWorld().subscribe(data => {
-      this.game = data.name;
-      this.score = data.money;
-    });
-    this.multi = "1";
+    
   }
 
-  upMulti():void {
-    switch (this.multi) {
-      case "1":
-        this.multi = "10";
-        break;
-      case "10":
-        this.multi = "100";
-        break;
-      case "100":
-        this.multi = "MAX";
-        break;
-      case "MAX":
-        this.multi = "1";
-        break;
-    }
-  };
+  
 
-
-  formatNumber(number) {
-    if (number < 1000)
-      number = number.toFixed(2);
-    else if (number < 1000000)
-      number = number.toFixed(0);
-    else if (number >= 1000000) {
-      number = number.toPrecision(4);
-      number = number.replace(/e\+(.*)/, "x10<sup>$1</sup>");
-    }
-    return number;
-  }
 }

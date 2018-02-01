@@ -1,8 +1,1 @@
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
-
-body{
-    background-image: url(assets/img/font.jpg);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+/* You can add global styles to this file, and also import other style files */

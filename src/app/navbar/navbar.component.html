@@ -1,30 +1,15 @@
-<!--<mat-toolbar color="primary">
-    <span mat-button>{{game}}</span>
-
-    This fills the remaining space of the current row
-    <span class="fill-remaining-space"></span>
-    <div fxLayout="row" fxShow="false" fxShow.gt-sm>
-        <button mat-button routerLink="/products">{{score}} $</button>
+<nav class="navbar navbar-dark bg-success navbar-expand-lg">
+  <a class="navbar-brand" href="#">
+    <img src="{{logo}}" width="30" height="30" class="d-inline-block align-top" alt=""> {{game}}
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <div class="nav-link"><span class="text-warning" [innerHTML]="money | bigvalue"> </span></div>
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0">
+      <button class="btn btn-danger my-2 my-sm-0" (click)="upMulti()">Buy x{{multi}}</button>
     </div>
-    <span class="fill-space"></span>
-    <button mat-raised-button fxHide="false" fxHide.gt-sm color="warn">
-        <span layout-align="center">x 1</span>
-    </button>
-
-</mat-toolbar>
--->
-<nav class="navbar navbar-inverse bg-sucess">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand">{{game}}</a>
-        </div>
-        <div class="navbar-right">
-            <span class="text-warning">
-                <b>{{score}} $</b>
-            </span>
-            <button (click)="upMulti()" class="btn btn-danger">
-                <span>x {{multi}}</span>
-            </button>
-        </div>
-    </div>
+  </div>
 </nav>

@@ -1,13 +1,34 @@
-<navbar></navbar>
+<app-navbar [qtmulti]="qtmulti"></app-navbar>
 <div class="container-fluid">
-    <div class="page-content">
+  <div class="row">
+    <div class="col-md-2 my-4">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-md-10">
       <div class="row">
-        <div class="col-sm-2">
-            <sidebar></sidebar>
+        <div class="col-md-6">
+          <app-product [prod]="world.products.product[0]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
         </div>
-        <div class="col-sm-10">
-            <router-outlet></router-outlet>
+        <div class="col-md-6">
+          <app-product [prod]="world.products.product[3]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <app-product [prod]="world.products.product[1]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
+        </div>
+        <div class="col-md-6">
+          <app-product [prod]="world.products.product[4]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <app-product [prod]="world.products.product[2]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
+        </div>
+        <div class="col-md-6">
+          <app-product [prod]="world.products.product[5]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
         </div>
       </div>
     </div>
   </div>
+</div>

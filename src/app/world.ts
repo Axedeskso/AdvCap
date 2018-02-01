@@ -24,4 +24,3 @@ export class World {
         this.allunlocks = { "pallier":[ ] };
     }
 }
-
