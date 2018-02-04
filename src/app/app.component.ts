@@ -9,23 +9,34 @@ import { Product } from './product';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'FootballCapitalist';
+  title: string;
+  logo: string;
+
+  user = "";
 
   world: World = new World();
   server: string;
   products: Product[];
-  qtmulti:string;
+  qtmulti: string;
 
   constructor(private service: GlobalService) {
     this.server = service.url;
     this.service.getWorld().subscribe(data => {
       this.world = data;
+      this.title = data.name;
+      console.log(this.world);
       this.products = data.products.product;
     });
     this.qtmulti = "1";
+
+    setInterval(() => { this.calcScore(); }, 100);
   }
 
-  upMulti():void {
+  calcScore() : void{
+    this.world.money = this.world.money + 1
+  }
+  
+  upMulti(): void {
     switch (this.qtmulti) {
       case "1":
         this.qtmulti = "10";

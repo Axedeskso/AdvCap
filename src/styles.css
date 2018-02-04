@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background-image: url("http://localhost:8080/AdvCapS/img/fond.png");
+    background-size: cover;
+}

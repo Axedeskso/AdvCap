@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Product } from '../product';
 import { GlobalService } from '../global.service';
 import { AppComponent } from '../app.component';
-import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-product',
@@ -10,10 +9,11 @@ import { NavbarComponent } from '../navbar/navbar.component';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  url:string;
+  url: string;
   product: Product;
-  multi:string;
-  money:number;
+  multi: string;
+  money: number;
+  achatStatus:string;
 
   @Input()
   set prod(value: Product) {
@@ -21,19 +21,34 @@ export class ProductComponent implements OnInit {
   }
 
   @Input()
-  set qtmulti(value:string){
-    this.multi=value;
+  set qtmulti(value: string) {
+    this.multi = value;
+    if (this.multi && this.product) {
+      this.calcMaxCanBuy();
+    }
+
   }
 
   @Input()
-  set pmoney(value:number){
-    this.money=value;
+  set pmoney(value: number) {
+    this.money = value;
+    if(this.money<this.product.cout){
+      this.achatStatus = "false";
+    }
+    else{
+      this.achatStatus = "true";
+    }
   }
 
-  constructor(private service: GlobalService){
+  constructor(private service: GlobalService) {
     this.url = service.url;
-   }
+  }
 
   ngOnInit() {
   }
+
+  calcMaxCanBuy(): void {
+
+  }
 }
+

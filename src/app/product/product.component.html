@@ -22,7 +22,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-md-8">
-                    <button type="button" class="btn btn-block btn-danger">
+                    <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'">
                         <div class="row">
                             <div class="col-md-6">
                                 Buy x{{multi}}

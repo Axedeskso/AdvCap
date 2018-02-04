@@ -1,8 +1,32 @@
-<app-navbar [qtmulti]="qtmulti"></app-navbar>
+<nav class="navbar navbar-dark bg-success navbar-expand-lg">
+  <a class="navbar-brand" href="#">
+    <img src="{{server}}{{world.logo}}" width="30" height="30" class="d-inline-block align-top" alt=""> {{title}}
+  </a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <form>
+        <input type="text" class="form-control" placeholder="Pseudo">
+    </form>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <div class="nav-link">
+          <span class="text-warning" [innerHTML]="world.money | bigvalue"> </span>
+        </div>
+      </li>
+    </ul>
+    <div class="my-2 my-lg-0">
+      <button class="btn btn-danger my-2 my-sm-0" (click)="upMulti()">Buy x{{qtmulti}}</button>
+    </div>
+  </div>
+</nav>
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-2 my-4">
-      <app-sidebar></app-sidebar>
+      <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Unlocks</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Upgrades</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Managers</li>
+        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Angels</li>
+      </ul>
     </div>
     <div class="col-md-10">
       <div class="row">

@@ -10,6 +10,6 @@ export class GlobalService {
   constructor(private http: HttpClient) { }
 
   getWorld(){
-    return this.http.get<World>(this.url + "webresources/world-json");
+    return this.http.get<World>(this.url + "webresources/world");
   }
 }
