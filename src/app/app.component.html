@@ -1,10 +1,10 @@
 <nav class="navbar navbar-dark bg-success navbar-expand-lg">
   <a class="navbar-brand" href="#">
-    <img src="{{server}}{{world.logo}}" width="30" height="30" class="d-inline-block align-top" alt=""> {{title}}
+    <img [attr.src]="server+world.logo" width="30" height="30" class="d-inline-block align-top" alt=""> {{title}}
   </a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form>
-        <input type="text" class="form-control" placeholder="Pseudo">
+      <input type="text" class="form-control" (ngModel)="username" (change)="onUsernameChanged()" placeholder="Pseudo">
     </form>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -22,37 +22,181 @@
   <div class="row">
     <div class="col-md-2 my-4">
       <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Unlocks</li>
-        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Upgrades</li>
-        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Managers</li>
-        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Angels</li>
+        <a data-toggle="modal" (click)="unlocksModal.show()">
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Unlocks</li>
+        </a>
+        <a data-toggle="modal" (click)="upgradesModal.show()">
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Upgrades</li>
+        </a>
+        <a data-toggle="modal" (click)="managersModal.show()">
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Managers</li>
+        </a>
+        <a data-toggle="modal" (click)="angelsModal.show()">
+          <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-success">Angels</li>
+        </a>
       </ul>
     </div>
     <div class="col-md-10">
       <div class="row">
         <div class="col-md-6">
-          <app-product [prod]="world.products.product[0]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
+          <div class="row">
+            <div class="col-md-12">
+              <app-product [prod]="world.products.product[0]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-12"></app-product>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <app-product [prod]="world.products.product[1]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-12"></app-product>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <app-product [prod]="world.products.product[2]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-12"></app-product>
+            </div>
+          </div>
         </div>
         <div class="col-md-6">
-          <app-product [prod]="world.products.product[3]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <app-product [prod]="world.products.product[1]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
-        </div>
-        <div class="col-md-6">
-          <app-product [prod]="world.products.product[4]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <app-product [prod]="world.products.product[2]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
-        </div>
-        <div class="col-md-6">
-          <app-product [prod]="world.products.product[5]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-6"></app-product>
+          <div class="row">
+            <div class="col-md-12">
+              <app-product [prod]="world.products.product[3]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-12"></app-product>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <app-product [prod]="world.products.product[4]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-12"></app-product>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <app-product [prod]="world.products.product[5]" [qtmulti]="qtmulti" [pmoney]="world.money" class="product col-md-12"></app-product>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
+
+
 </div>
+
+<app-modal #unlocksModal>
+  <div class="app-modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Unlocks</h4>
+    <small>Want to maximize profits ? Look no futher ! Get your investments to these quotas to unlocks sweet profits bonuses ! It's Recursiveriffic !</small>
+  </div>
+  <div class="app-modal-body">
+    <div *ngFor="let product of world.products.product">
+      <div *ngFor="let pallier of product.palliers.pallier">
+        <div class="card border-success">
+          <div class="row">
+            <div class="col-md-3">
+              <img class="card-img-top" src="{{server}}{{pallier.logo}}">
+            </div>
+            <div class="col-md-9 pr-4">
+              <div class="row my-2">
+                <div class="col-8">{{pallier.name}}</div>
+                <div class="col-4">
+                  <button type="button" class="btn btn-block btn-danger">Buy</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngFor="let allunlock of world.allunlocks.pallier">
+      <div class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" src="{{server}}{{allunlock.logo}}">
+          </div>
+          <div class="col-md-9 pr-4">
+            <div class="row my-2">
+              <div class="col-12">{{allunlock.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="unlocksModal.hide()">Close</button>
+  </div>
+</app-modal>
+
+<app-modal #upgradesModal>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Upgrades</h4>
+  </div>
+  <div class="app-modal-body">
+    <div *ngFor="let upgrade of world.upgrades.pallier">
+      <div class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" src="{{server}}{{upgrade.logo}}">
+          </div>
+          <div class="col-md-9 pr-4">
+            <div class="row my-2">
+              <div class="col-12">{{upgrade.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="upgradesModal.hide()">Close</button>
+  </div>
+</app-modal>
+
+<app-modal #managersModal>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Managers</h4>
+  </div>
+  <div class="app-modal-body">
+    <div *ngFor="let manager of world.managers.pallier">
+      <div class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" src="{{server}}{{manager.logo}}">
+          </div>
+          <div class="col-md-9 pr-4">
+            <div class="row my-2">
+              <div class="col-12">{{manager.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="managersModal.hide()">Close</button>
+  </div>
+</app-modal>
+
+<app-modal #angelsModal>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Angels</h4>
+  </div>
+  <div class="app-modal-body">
+    <div *ngFor="let angel of world.angelupgrades.pallier">
+      <div class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" src="{{server}}{{angel.logo}}">
+          </div>
+          <div class="col-md-9 pr-4">
+            <div class="row my-2">
+              <div class="col-12">{{angel.name}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-default" (click)="angelsModal.hide()">Close</button>
+  </div>
+</app-modal>

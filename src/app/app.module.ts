@@ -7,6 +7,7 @@ import { ProductComponent } from './product/product.component';
 import { GlobalService } from './global.service';
 import { BigvaluePipe } from './bigvalue.pipe';
 import { MstotimePipe } from './mstotime.pipe';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MstotimePipe } from './mstotime.pipe';
     ProductComponent,
     BigvaluePipe,
     MstotimePipe,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

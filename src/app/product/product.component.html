@@ -1,7 +1,7 @@
 <div class="card border-success">
     <div class="row">
         <div class="col-md-3">
-            <img class="card-img-top" src="{{url}}{{product.logo}}">
+            <img class="card-img-top {{productStatus}}" src="{{url}}{{product.logo}}">
             <div class="progress">
                 <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                 <span class="qtLabel">{{product.quantite}}</span>
@@ -13,16 +13,12 @@
             </div>
             <div class="row my-3">
                 <div class="col-md-12">
-                    <div class="progress" style="height: 25px;">
-                        <div class="progress-bar bg-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
-                        <span class="revenuLabel" [innerHTML]="product.revenu | bigvalue"></span>
-                        <!--progress-bar-striped-->
-                    </div>
+                    <div class="progress" #bar></div>
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-md-8">
-                    <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'">
+                    <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'" (click)="addProduct()">
                         <div class="row">
                             <div class="col-md-6">
                                 Buy x{{multi}}

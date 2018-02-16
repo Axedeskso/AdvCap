@@ -12,7 +12,7 @@ export class AppComponent {
   title: string;
   logo: string;
 
-  user = "";
+  username = "";
 
   world: World = new World();
   server: string;
@@ -24,16 +24,16 @@ export class AppComponent {
     this.service.getWorld().subscribe(data => {
       this.world = data;
       this.title = data.name;
-      console.log(this.world);
       this.products = data.products.product;
     });
     this.qtmulti = "1";
+    this.username = localStorage.getItem("username"); 
 
     setInterval(() => { this.calcScore(); }, 100);
   }
 
   calcScore() : void{
-    this.world.money = this.world.money + 1
+    
   }
   
   upMulti(): void {
@@ -51,6 +51,7 @@ export class AppComponent {
         this.qtmulti = "1";
         break;
     }
-  };
+  }
+  
 }
 
