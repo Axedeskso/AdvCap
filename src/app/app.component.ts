@@ -11,13 +11,11 @@ import { Product } from './product';
 export class AppComponent {
   title: string;
   logo: string;
-
   username = "";
-
   world: World = new World();
   server: string;
   products: Product[];
-  qtmulti: string;
+  qtmulti: any;
 
   constructor(private service: GlobalService) {
     this.server = service.url;
@@ -26,32 +24,34 @@ export class AppComponent {
       this.title = data.name;
       this.products = data.products.product;
     });
-    this.qtmulti = "1";
-    this.username = localStorage.getItem("username"); 
-
-    setInterval(() => { this.calcScore(); }, 100);
+    this.qtmulti = 1;
+    this.username = localStorage.getItem("username");
   }
 
-  calcScore() : void{
-    
-  }
-  
   upMulti(): void {
     switch (this.qtmulti) {
-      case "1":
-        this.qtmulti = "10";
+      case 1:
+        this.qtmulti = 10;
         break;
-      case "10":
-        this.qtmulti = "100";
+      case 10:
+        this.qtmulti = 100;
         break;
-      case "100":
+      case 100:
         this.qtmulti = "MAX";
         break;
       case "MAX":
-        this.qtmulti = "1";
+        this.qtmulti = 1;
         break;
     }
   }
-  
-}
 
+  onProductionDone(p): void {
+      this.world.money += p.revenu * (1 + this.world.activeangels * this.world.angelbonus / 100);
+      this.world.score += p.revenu * (1 + this.world.activeangels * this.world.angelbonus / 100);
+  }
+
+  onBuy(p): void {
+    this.world.money = this.world.money - p.cout;
+  }
+
+}

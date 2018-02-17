@@ -1,7 +1,7 @@
 <div class="card border-success">
     <div class="row">
         <div class="col-md-3">
-            <img class="card-img-top {{productStatus}}" src="{{url}}{{product.logo}}">
+            <img class="card-img-top {{productStatus}}" src="{{url}}{{product.logo}}" (click)="production()">
             <div class="progress">
                 <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                 <span class="qtLabel">{{product.quantite}}</span>
@@ -9,16 +9,19 @@
         </div>
         <div class="col-md-9 pr-4">
             <div class="row my-2">
-                <div class="col-12">{{product.name}}</div>
+                <div class="col-6">{{product.name}}</div>
             </div>
             <div class="row my-3">
+                <div class="col-md-12">
+                    <div class="text-center"[innerHTML]="product.revenu | bigvalue"></div>
+                </div>
                 <div class="col-md-12">
                     <div class="progress" #bar></div>
                 </div>
             </div>
             <div class="row my-3">
                 <div class="col-md-8">
-                    <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'" (click)="addProduct()">
+                    <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'" (click)="achat()">
                         <div class="row">
                             <div class="col-md-6">
                                 Buy x{{multi}}
@@ -30,7 +33,7 @@
                     </button>
                 </div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-block btn-outline-success disabled" [innerHTML]="product.vitesse | mstotime"></button>
+                    <button type="button" class="btn btn-block btn-outline-success disabled" [innerHTML]="product.timeleft | mstotime"></button>
                 </div>
             </div>
         </div>
