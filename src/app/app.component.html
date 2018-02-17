@@ -92,21 +92,22 @@
   <div class="app-modal-body">
     <div *ngFor="let product of world.products.product">
       <div *ngFor="let pallier of product.palliers.pallier">
-        <div class="card border-success">
-          <div class="row">
-            <div class="col-md-3">
-              <img class="card-img-top" src="{{server}}{{pallier.logo}}">
-            </div>
-            <div class="col-md-9 pr-4">
-              <div class="row my-2">
-                <div class="col-8">{{pallier.name}}</div>
-                <div class="col-4">
-                  <button type="button" class="btn btn-block btn-danger">Buy</button>
+          <div *ngIf="pallier.unlocked == false" class="card border-success">
+              <div class="row">
+                <div class="col-md-3">
+                  <img class="card-img-top"  [attr.src]="server+pallier.logo">
+                </div>
+                <div class="col-md-5">
+                  <div class="row">{{pallier.name}}</div>
+                  <div class="row">{{pallier.idcible}}</div>
+                  <div class="row">{{pallier.seuil}}</div>
+                  <div class="row">{{pallier.ratio}} + {{pallier.typeratio}}</div>
+                </div>
+                <div class="col-md-4">
+                  <button type="button" class="btn btn-block btn-danger">Hire !</button>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -120,16 +121,21 @@
     <h4 class="modal-title">Upgrades</h4>
   </div>
   <div class="app-modal-body">
-    <div *ngFor="let upgrade of world.upgrades.pallier">
-      <div class="card border-success">
+    <div *ngFor="let upgrade of upgrades">
+      <div *ngIf="upgrade.unlocked == false" class="card border-success">
         <div class="row">
           <div class="col-md-3">
-            <img class="card-img-top" src="{{server}}{{upgrade.logo}}">
+            <img class="card-img-top" [attr.src]="server+upgrade.logo">
           </div>
-          <div class="col-md-9 pr-4">
-            <div class="row my-2">
-              <div class="col-12">{{upgrade.name}}</div>
+          <div class="col-md-5">
+            <div class="row">{{upgrade.name}}</div>
+            <div class="row">{{upgrade.idcible}}</div>
+            <div class="row">
+              <span [innerHTML]="upgrade.seuil | bigvalue"></span>
             </div>
+          </div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-block btn-danger">Hire !</button>
           </div>
         </div>
       </div>
@@ -143,18 +149,21 @@
 <app-modal #managersModal>
   <div class="app-modal-header">
     <h4 class="modal-title">Managers</h4>
+    <small>Hire one to run your business for you, or to maximize efficiency, all for just one easy payment ! Salary schmalary !</small>
   </div>
   <div class="app-modal-body">
-    <div *ngFor="let manager of world.managers.pallier">
-      <div class="card border-success">
+    <div *ngFor="let manager of managers">
+      <div *ngIf="manager.unlocked == false" class="card border-success">
         <div class="row">
           <div class="col-md-3">
-            <img class="card-img-top" src="{{server}}{{manager.logo}}">
+            <img class="card-img-top" [attr.src]="server+manager.logo">
           </div>
           <div class="col-md-5">
-              <div class="row">{{manager.name}}</div>
-              <div class="row"><span [innerHTML]="manager.seuil | bigvalue"></span></div>
-              <div class="row">{{manager.idcible}}</div>
+            <div class="row">{{manager.name}}</div>
+            <div class="row">{{world.products.product[manager.idcible-1].name}}</div>
+            <div class="row">
+              <span [innerHTML]="manager.seuil | bigvalue"></span>
+            </div>
           </div>
           <div class="col-md-4">
             <button type="button" class="btn btn-block btn-danger">Hire !</button>
@@ -177,7 +186,7 @@
       <div class="card border-success">
         <div class="row">
           <div class="col-md-3">
-            <img class="card-img-top" src="{{server}}{{angel.logo}}">
+            <img class="card-img-top" [attr.src]="server+angel.logo">
           </div>
           <div class="col-md-9 pr-4">
             <div class="row my-2">

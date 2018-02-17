@@ -1,7 +1,7 @@
 <div class="card border-success">
     <div class="row">
         <div class="col-md-3">
-            <img class="card-img-top {{productStatus}}" src="{{url}}{{product.logo}}" (click)="production()">
+            <img class="card-img-top {{productStatus}}" [attr.src]="url+product.logo" (click)="production()">
             <div class="progress">
                 <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
                 <span class="qtLabel">{{product.quantite}}</span>
@@ -24,10 +24,10 @@
                     <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'" (click)="achat()">
                         <div class="row">
                             <div class="col-md-6">
-                                Buy x{{multi}}
+                                Buy x{{_qtmulti}}
                             </div>
                             <div class="col-md-6">
-                                <span [innerHTML]="product.cout | bigvalue"></span>
+                                <span [innerHTML]="_cout | bigvalue"></span>
                             </div>
                         </div>
                     </button>

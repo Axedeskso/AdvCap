@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { World } from './world';
 import { GlobalService } from './global.service';
 import { Product } from './product';
+import { Pallier } from './pallier';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +16,29 @@ export class AppComponent {
   world: World = new World();
   server: string;
   products: Product[];
+  unlocks : Pallier[];
+  managers:Pallier[];
+  upgrades:Pallier[];
   qtmulti: any;
 
   constructor(private service: GlobalService) {
     this.server = service.url;
     this.service.getWorld().subscribe(data => {
       this.world = data;
-      this.title = data.name;
-      this.products = data.products.product;
+//      this.world.allunlocks.pallier.forEach(pallier => {
+  //      var p;
+    //    p.push(pallier);
+      //  console.log("P");
+        //console.log(p);
+      //});
+      this.title = this.world.name;
+      this.products = this.world.products.product;
+      //this.world.products.product.forEach(product => {
+        //product.palliers.pallier.forEach(pallier => {
+        //});
+      //});
+      this.upgrades = this.world.upgrades.pallier;
+      this.managers = this.world.managers.pallier;
     });
     this.qtmulti = 1;
     this.username = localStorage.getItem("username");
@@ -51,7 +67,6 @@ export class AppComponent {
   }
 
   onBuy(p): void {
-    this.world.money = this.world.money - p.cout;
+    this.world.money = this.world.money - p;
   }
-
 }
