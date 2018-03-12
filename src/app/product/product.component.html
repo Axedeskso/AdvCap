@@ -13,7 +13,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-md-12">
-                    <div class="text-center"[innerHTML]="product.revenu | bigvalue"></div>
+                    <div class="text-center"[innerHTML]="(product.revenu*product.quantite) | bigvalue"></div>
                 </div>
                 <div class="col-md-12">
                     <div class="progress" #bar></div>

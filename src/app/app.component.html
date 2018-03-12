@@ -4,7 +4,7 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form>
-      <input type="text" class="form-control" (ngModel)="username" (change)="onUsernameChanged()" placeholder="Pseudo">
+      <input #box type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged(box.value)" placeholder="Pseudo" value="{{username}}">
     </form>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -165,7 +165,7 @@
               <span [innerHTML]="manager.seuil | bigvalue"></span>
             </div>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-4 pr-4">
             <button type="button" class="btn btn-block btn-danger">Hire !</button>
           </div>
         </div>

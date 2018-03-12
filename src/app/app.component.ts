@@ -12,36 +12,42 @@ import { Pallier } from './pallier';
 export class AppComponent {
   title: string;
   logo: string;
-  username = "";
+  username: any;
   world: World = new World();
   server: string;
   products: Product[];
-  unlocks : Pallier[];
-  managers:Pallier[];
-  upgrades:Pallier[];
+  unlocks: Pallier[];
+  managers: Pallier[];
+  upgrades: Pallier[];
   qtmulti: any;
+  achatStatus:string;
 
   constructor(private service: GlobalService) {
     this.server = service.url;
-    this.service.getWorld().subscribe(data => {
+    this.service.getWorld().then(data => {
       this.world = data;
-//      this.world.allunlocks.pallier.forEach(pallier => {
-  //      var p;
-    //    p.push(pallier);
-      //  console.log("P");
-        //console.log(p);
-      //});
       this.title = this.world.name;
       this.products = this.world.products.product;
-      //this.world.products.product.forEach(product => {
-        //product.palliers.pallier.forEach(pallier => {
-        //});
-      //});
       this.upgrades = this.world.upgrades.pallier;
       this.managers = this.world.managers.pallier;
     });
     this.qtmulti = 1;
+    this.initiateUser();
     this.username = localStorage.getItem("username");
+  }
+
+  initiateUser():void{
+    if (this.username == null || this.username == "" ) {
+      var num = Math.floor(Math.random() * 10000);
+      var pseudo = "CaptainObvious";
+      this.username = pseudo + num;
+    }
+  }
+
+  onUsernameChanged(user:any): void {    
+    localStorage.setItem("username", user);
+    this.service.user = user;
+    this.service.getWorld();
   }
 
   upMulti(): void {
@@ -61,12 +67,13 @@ export class AppComponent {
     }
   }
 
-  onProductionDone(p): void {
-      this.world.money += p.revenu * (1 + this.world.activeangels * this.world.angelbonus / 100);
-      this.world.score += p.revenu * (1 + this.world.activeangels * this.world.angelbonus / 100);
+  onProductionDone(p:Product): void {
+    this.world.money += (p.revenu*p.quantite) * (1 + this.world.activeangels * this.world.angelbonus / 100);
+    this.world.score += (p.revenu*p.quantite) * (1 + this.world.activeangels * this.world.angelbonus / 100);
   }
 
   onBuy(p): void {
     this.world.money = this.world.money - p;
   }
+
 }

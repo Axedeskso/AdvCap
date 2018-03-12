@@ -17,7 +17,7 @@ export class ProductComponent implements OnInit {
   product: Product;
   logoP: string;
   _qtmulti: any;
-  _cout:any;
+  _cout: any;
   money: number;
   achatStatus: string;
   progressbar: any;
@@ -37,7 +37,6 @@ export class ProductComponent implements OnInit {
       var prix = this.calcMaxCanBuy();
       this._qtmulti = this.calcMaxCanBuy()[0];
       this._cout = this.calcMaxCanBuy()[1];
-      console.log(prix);
     }
   }
 
@@ -55,8 +54,8 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.progressbar = new ProgressBar.Line(this.progressBarItem.nativeElement, { strokeWidth: 50, color: '#00ff00' });
-    setInterval(() => { this.calcScore(); this.calcQuantite(); this.calcMaxCanBuy()}, 100);
+    this.progressbar = new ProgressBar.Line(this.progressBarItem.nativeElement, { strokeWidth: 50, color: '#28a745' });
+    setInterval(() => { this.calcScore(); this.calcQuantite(); }, 100);
   }
 
   achat(): void {
@@ -92,8 +91,8 @@ export class ProductComponent implements OnInit {
 
   calcQuantite(): void {
     this._cout = this.calcMaxCanBuy()[1];
-    if(this.money >= this._cout){
-      this.achatStatus = "true"; 
+    if (this.money >= this._cout) {
+      this.achatStatus = "true";
     }
     else {
       this.achatStatus = "false";
@@ -103,7 +102,7 @@ export class ProductComponent implements OnInit {
   calcMaxCanBuy(): any {
     var c = this.product.cout;
     var q = 1 + this.product.croissance / 100;
-    if (this._qtmulti == "MAX") { // calcul de la quantité maximale et du prix de cette quantité
+    if (this._qtmulti == "MAX") {
       var i = 0;
       var p = 0;
       do {
@@ -123,7 +122,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  statusAchat():void{
+  statusAchat(): void {
     if (this.money < this.product.cout) {
       this.achatStatus = "false";
     }

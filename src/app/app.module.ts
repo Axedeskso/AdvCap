@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ProductComponent } from './product/product.component';
@@ -8,6 +8,7 @@ import { GlobalService } from './global.service';
 import { BigvaluePipe } from './bigvalue.pipe';
 import { MstotimePipe } from './mstotime.pipe';
 import { ModalComponent } from './modal/modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ModalComponent } from './modal/modal.component';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpModule,
+    FormsModule
   ],
   providers: [GlobalService],
   bootstrap: [AppComponent]
