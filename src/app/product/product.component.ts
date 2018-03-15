@@ -15,7 +15,6 @@ const ProgressBar = require("progressbar.js");
 export class ProductComponent implements OnInit {
   url: string;
   product: Product;
-  logoP: string;
   _qtmulti: any;
   _cout: any;
   money: number;

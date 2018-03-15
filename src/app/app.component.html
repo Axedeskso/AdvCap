@@ -182,20 +182,7 @@
     <h4 class="modal-title">Angels</h4>
   </div>
   <div class="app-modal-body">
-    <div *ngFor="let angel of world.angelupgrades.pallier">
-      <div class="card border-success">
-        <div class="row">
-          <div class="col-md-3">
-            <img class="card-img-top" [attr.src]="server+angel.logo">
-          </div>
-          <div class="col-md-9 pr-4">
-            <div class="row my-2">
-              <div class="col-12">{{angel.name}}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-default" (click)="angelsModal.hide()">Close</button>

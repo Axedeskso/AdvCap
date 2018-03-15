@@ -17,8 +17,10 @@ export class AppComponent {
   server: string;
   products: Product[];
   unlocks: Pallier[];
+  allunlocks: Pallier[];
   managers: Pallier[];
   upgrades: Pallier[];
+  angels: Pallier[];
   qtmulti: any;
   achatStatus:string;
 
@@ -27,8 +29,20 @@ export class AppComponent {
     this.service.getWorld().then(data => {
       this.world = data;
       this.title = this.world.name;
+      this.allunlocks = this.world.allunlocks.pallier;
       this.products = this.world.products.product;
-      this.upgrades = this.world.upgrades.pallier;
+      this.products.forEach(produit => {
+        produit.palliers.pallier.forEach(pallier =>{
+          this.allunlocks.push(pallier);
+        });
+      });
+      console.log(this.allunlocks);
+      this.upgrades = this.world.upgrades.pallier
+      this.angels = this.world.angelupgrades.pallier;
+      this.angels.forEach(a => {
+        this.upgrades.push(a);  
+      });
+      console.log(this.upgrades);
       this.managers = this.world.managers.pallier;
     });
     this.qtmulti = 1;
