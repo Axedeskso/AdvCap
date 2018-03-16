@@ -3,6 +3,7 @@ import { World } from './world';
 import { GlobalService } from './global.service';
 import { Product } from './product';
 import { Pallier } from './pallier';
+import { ToasterService } from 'angular5-toaster';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,8 @@ import { Pallier } from './pallier';
 export class AppComponent {
   title: string;
   logo: string;
+  player:string;
+  theme:string;
   username: any;
   world: World = new World();
   server: string;
@@ -24,8 +27,10 @@ export class AppComponent {
   qtmulti: any;
   achatStatus:string;
 
-  constructor(private service: GlobalService) {
-    this.server = service.url;
+  constructor(private service: GlobalService, private toasterService: ToasterService) {
+    this.server = service.getServeur();
+    this.player = "img/profil/user.png"
+    this.theme = "msc/theme.mp3";
     this.service.getWorld().then(data => {
       this.world = data;
       this.title = this.world.name;
@@ -56,6 +61,11 @@ export class AppComponent {
       var pseudo = "CaptainObvious";
       this.username = pseudo + num;
     }
+  }
+
+  buyManager(m):void{
+    console.log('CIBLE : '+ this.world.products.product[m.idcible-1].name);
+    this.toasterService.pop('success',"Manager Hired !", m.name);
   }
 
   onUsernameChanged(user:any): void {    

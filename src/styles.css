@@ -3,3 +3,17 @@ body{
     background-image: url("http://localhost:8080/AdvCapS/img/fond.png");
     background-size: cover;
 }
+
+#toast-container{
+    background-color: #ffc107;
+    border-radius: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+.toast{
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+.toast-content {
+    padding-left: 20px;
+}

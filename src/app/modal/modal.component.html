@@ -1,6 +1,6 @@
 <div (click)="onContainerClicked($event)" class="modal" tabindex="-1" role="dialog" [ngClass]="{'in': visibleAnimate}" [ngStyle]="{'display': visible ? 'block' : 'none','overflow': visible ? 'auto' : 'none', 'opacity':visibleAnimate ? 1 : 0}">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content bg-success text-white border-warning">
       <div class="modal-header">
         <ng-content select=".app-modal-header"></ng-content>
       </div>
