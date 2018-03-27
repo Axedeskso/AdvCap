@@ -3,7 +3,7 @@
         <div class="col-md-3">
             <img class="card-img-top {{productStatus}}" [attr.src]="url+product.logo" (click)="production()">
             <div class="progress">
-                <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar bg-warning" role="progressbar" [style.width]="0+'%'"></div>
                 <span class="qtLabel">{{product.quantite}}</span>
             </div>
         </div>
@@ -13,7 +13,7 @@
             </div>
             <div class="row my-3">
                 <div class="col-md-12">
-                    <div class="text-center"[innerHTML]="(product.revenu*product.quantite) | bigvalue"></div>
+                    <div class="text-center"><span [innerHTML]="(product.revenu*product.quantite) | bigvalue"></span> $</div>
                 </div>
                 <div class="col-md-12">
                     <div class="progress" #bar></div>
@@ -21,13 +21,13 @@
             </div>
             <div class="row my-3">
                 <div class="col-md-8">
-                    <button type="button" class="btn btn-block btn-danger" [disabled]="achatStatus != 'true'" (click)="achat()">
+                    <button type="button" class="btn btn-block btn-danger" [disabled]="this.money < this._cout" (click)="achat()">
                         <div class="row">
                             <div class="col-md-6">
-                                Buy x{{_qtmulti}}
+                                Buy x<span [innerHTML]="_qtmulti"></span>
                             </div>
                             <div class="col-md-6">
-                                <span [innerHTML]="_cout | bigvalue"></span>
+                                <span [innerHTML]="_cout | bigvalue"></span> $
                             </div>
                         </div>
                     </button>

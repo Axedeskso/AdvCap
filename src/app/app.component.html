@@ -1,5 +1,5 @@
 <audio autoplay volume="0.2">
-    <source type="audio/mp3" [attr.src]="server+theme">
+  <source type="audio/mp3" [attr.src]="server+theme">
 </audio>
 
 <nav class="navbar navbar-dark bg-success navbar-expand-lg">
@@ -9,13 +9,14 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form>
       <input #box type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged(box.value)" placeholder="Pseudo"
-        value="{{username}}">
+        value="{{pseudo}}" />
     </form>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <div class="nav-link">
-          <span class="text-warning">
-            <span [innerHTML]="world.money | bigvalue"></span>$</span>
+          <span  class="text-warning">
+            <span [innerHTML]="world.money | bigvalue"></span>$
+          </span>
         </div>
       </li>
     </ul>
@@ -32,10 +33,14 @@
           <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Unlocks</li>
         </a>
         <a data-toggle="modal" (click)="upgradesModal.show()">
-          <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Upgrades</li>
+          <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Upgrades
+            <span class="badge badge-warning">{{notifUp}}</span>
+          </li>
         </a>
         <a data-toggle="modal" (click)="managersModal.show()">
-          <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Managers  <span class="badge badge-warning">1</span></li>
+          <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Managers
+            <span class="badge badge-warning">{{notifM}}</span>
+          </li>
         </a>
         <a data-toggle="modal" (click)="angelsModal.show()">
           <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Investors</li>
@@ -99,24 +104,69 @@
   <div class="app-modal-body">
     <div *ngFor="let product of world.products.product">
       <div *ngFor="let pallier of product.palliers.pallier">
-        <div *ngIf="pallier.unlocked == false" class="card border-success">
-          <div class="row">
-            <div class="col-md-3">
-              <img class="card-img-top" [attr.src]="server+pallier.logo">
+      <div class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" [attr.src]="server+pallier.logo">
+          </div>
+          <div class="col-md-9">
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <h5 class="text-center text-success">{{pallier.name}}</h5>
+              </div>
             </div>
-            <div class="col-md-9">
-              <div class="row">{{pallier.name}}</div>
-              <div class="row">{{pallier.idcible}}</div>
-              <div class="row">{{pallier.seuil}}</div>
-              <div class="row">{{pallier.ratio}} + {{pallier.typeratio}}</div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="text-center text-secondary">
+                  <span> {{pallier.typeratio}} x{{pallier.ratio}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h5 class="text-center text-warning">
+                  <span [innerHTML]="pallier.seuil"></span>
+                </h5>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      </div>
     </div>
+    <!--<div *ngFor="let pallier of allunlocks">
+      <div *ngIf="pallier.idcible == 0 && pallier.unlocked == false" class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" [attr.src]="server+pallier.logo">
+          </div>
+          <div class="col-md-9">
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <h5 class="text-center text-success">{{pallier.name}}</h5>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="text-center text-secondary">
+                  <span *ngIf="pallier.idcible == 0">ALL {{pallier.typeratio}} x{{pallier.ratio}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h5 class="text-center text-warning">
+                  <span [innerHTML]="pallier.seuil"></span>
+                </h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
   </div>
   <div class="app-modal-footer">
-    <button type="button" class="btn btn-default" (click)="unlocksModal.hide()">Close</button>
+    <button type="button" class="btn btn-danger" (click)="unlocksModal.hide()">Close</button>
   </div>
 </app-modal>
 
@@ -132,10 +182,10 @@
           <div class="col-md-3">
             <img class="card-img-top" [attr.src]="server+upgrade.logo">
           </div>
-          <div class="col-md-5">
+          <div class="col-md-6">
             <div class="row mt-1">
               <div class="col-md-12">
-                <h5 class="text-center text-success">{{upgrade.name}}</h5>
+                <b class="text-center text-success">{{upgrade.name}}</b>
               </div>
             </div>
             <div class="row">
@@ -152,8 +202,8 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
-            <button type="button" class="btn btn-block btn-danger">Hire !</button>
+          <div class="col-md-3 pr-4">
+            <button type="button" class="btn btn-block btn-danger" [disabled]="world.money < upgrade.seuil" (click)="buyUpgrade(upgrade)">Hire !</button>
           </div>
         </div>
       </div>
@@ -200,7 +250,7 @@
             </div>
           </div>
           <div class="col-md-4 pr-4">
-            <button type="button" class="btn btn-block btn-danger my-4" (click)="buyManager(manager)">Hire !</button>
+            <button type="button" class="btn btn-block btn-danger my-4" [disabled]="world.money < manager.seuil" (click)="buyManager(manager)">Hire !</button>
           </div>
         </div>
       </div>
@@ -266,14 +316,14 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <h5 class="text-center text-success">Claimed With Restart</h5>
+              <h5 class="text-center text-success" >Claimed With Restart</h5>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-1"></div>
     </div>
-    <button class="btn btn-block btn-danger">Claim Angel Investors</button>
+    <button class="btn btn-block btn-danger" (click)="resetWorld()">Claim Angel Investors</button>
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-danger btn-block" (click)="angelsModal.hide()">Close</button>

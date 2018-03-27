@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from '@angu
 import { Product } from '../product';
 import { GlobalService } from '../global.service';
 import { AppComponent } from '../app.component';
+import { ToasterService } from 'angular5-toaster';
+import { Pallier } from '../pallier';
 
 declare var require;
 const ProgressBar = require("progressbar.js");
@@ -18,7 +20,6 @@ export class ProductComponent implements OnInit {
   _qtmulti: any;
   _cout: any;
   money: number;
-  achatStatus: string;
   progressbar: any;
   lastupdate: any;
 
@@ -42,25 +43,46 @@ export class ProductComponent implements OnInit {
   @Input()
   set pmoney(value: number) {
     this.money = value;
-    this.statusAchat();
   }
 
   @Output() notifyProduction: EventEmitter<Product> = new EventEmitter<Product>();
   @Output() notifyAchat: EventEmitter<Product> = new EventEmitter<Product>();
 
-  constructor(private service: GlobalService) {
-    this.url = service.url;
+  constructor(private service: GlobalService, private toasterService: ToasterService) {
+    this.url = this.service.url;
   }
 
   ngOnInit() {
     this.progressbar = new ProgressBar.Line(this.progressBarItem.nativeElement, { strokeWidth: 50, color: '#28a745' });
-    setInterval(() => { this.calcScore(); this.calcQuantite(); }, 100);
+    setInterval(() => { this.calcScore(); this.calcQuantite(); this.calcMaxCanBuy(); }, 10);
   }
 
   achat(): void {
     var qt = this.calcMaxCanBuy()[0];
     this.product.quantite += qt;
     this.notifyAchat.emit(this._cout);
+    this.service.putProduct(this.product);
+
+    this.product.palliers.pallier.forEach(u => {
+    if (u.unlocked == false) {
+      if (this.product.quantite >= u.seuil) {
+        u.unlocked = true;
+        switch (u.typeratio) {
+          case "GAIN":
+            this.product.revenu = this.product.revenu * u.ratio;
+            break;
+          case "VITESSE":
+            this.product.vitesse = Math.round(this.product.vitesse / u.ratio);
+            this.product.timeleft = Math.round(this.product.timeleft / u.ratio);
+            if (this.product.timeleft > 0)
+              this.progressbar.animate(1, { duration: this.product.timeleft });
+            break;
+        }
+        this.toasterService.pop('success', u.name, this.product.name + " " + u.typeratio + " x" + u.ratio);
+      }
+    }
+  });
+
   }
 
   production(): void {
@@ -90,12 +112,6 @@ export class ProductComponent implements OnInit {
 
   calcQuantite(): void {
     this._cout = this.calcMaxCanBuy()[1];
-    if (this.money >= this._cout) {
-      this.achatStatus = "true";
-    }
-    else {
-      this.achatStatus = "false";
-    }
   }
 
   calcMaxCanBuy(): any {
@@ -121,13 +137,7 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  statusAchat(): void {
-    if (this.money < this.product.cout) {
-      this.achatStatus = "false";
-    }
-    else {
-      this.achatStatus = "true";
-    }
-  }
+  //calcUpgrade(Pallier pallier){
 
+  //}
 }
