@@ -32,42 +32,37 @@ export class AppComponent {
 
   constructor(private service: GlobalService, private toasterService: ToasterService) {
     this.server = service.getServeur();
-    this.theme = "msc/theme.mp3";
+    this.username = localStorage.getItem("username");
+    this.service.setUser(this.username);
+    
+    //if (this.username == "" || this.username == null) {
+      //this.initiateUser();
+    //}
+    //this.theme = "msc/theme.mp3"; 
     this.service.getWorld().then(data => {
       this.world = data;
       this.title = this.world.name;
-      this.allunlocks = this.world.allunlocks.pallier;
-      this.products = this.world.products.product;
-      this.products.forEach(produit => {
-        produit.palliers.pallier.forEach(pallier => {
-          this.allunlocks.push(pallier);
-        });
-      });
-      this.upgrades = this.world.upgrades.pallier
-      this.angels = this.world.angelupgrades.pallier;
-      this.angels.forEach(a => {
-        this.upgrades.push(a);
-      });
-      this.managers = this.world.managers.pallier;
     });
-    this.initiateUser();
-    this.username = localStorage.getItem("username");
     this.qtmulti = 1;
     this.notify();
   }
 
   initiateUser(): void {
-    if (this.username == null || this.username == "") {
-      var num = Math.floor(Math.random() * 10000);
-      var pseudo = "CaptainObvious";
-      this.username = pseudo + num;
-    }
+    var num = Math.floor(Math.random() * 10000);
+    var pseudo = "CaptainObvious";
+    this.username = pseudo + num;
+    localStorage.setItem("username", this.username);
+    this.service.setUser(this.username);
   }
 
-  onUsernameChanged(user: any): void {
-    localStorage.setItem("username", user);
-    this.service.user = user;
-    this.service.getWorld();
+  onUsernameChanged(): void {
+    //if (this.username == "" || this.username == "null") {
+      //this.initiateUser();
+    //} else {
+      localStorage.setItem("username", this.username);
+      this.service.setUser(this.username);
+      this.service.getWorld();
+    //}
   }
 
   upMulti(): void {
@@ -91,14 +86,18 @@ export class AppComponent {
     this.world.money += (p.revenu * p.quantite) * (1 + this.world.activeangels * this.world.angelbonus / 100);
     this.world.score += (p.revenu * p.quantite) * (1 + this.world.activeangels * this.world.angelbonus / 100);
     this.notify();
+    this.service.putProduct(p);
   }
 
   onBuy(p): void {
     this.world.money -= p;
-    //this.productsComponent.forEach(p => p.calcUpgrade(pallier));
     this.notify();
+    //this.world.allunlocks.pallier.forEach(tu => {
+      //this.productsComponent.forEach(p => p.calcUpgrade(tu));
+    ///});;
+
   }
-  
+
   buyManager(m): void {
     this.world.money -= m.seuil;
     m.unlocked = true;
@@ -108,16 +107,16 @@ export class AppComponent {
     this.notify();
   }
 
-  notify():void{
+  notify(): void {
     this.notifM = "";
     this.notifUp = "";
-    for(let m of this.world.managers.pallier){
-      if(this.world.money >= m.seuil && !m.unlocked){
+    for (let m of this.world.managers.pallier) {
+      if (this.world.money >= m.seuil && !m.unlocked) {
         this.notifM = "NEW";
       }
     }
-    for(let up of this.world.upgrades.pallier){
-      if(this.world.money >= up.seuil && !up.unlocked){
+    for (let up of this.world.upgrades.pallier) {
+      if (this.world.money >= up.seuil && !up.unlocked) {
         this.notifUp = "NEW";
       }
     }
@@ -132,9 +131,14 @@ export class AppComponent {
     this.notify();
   }
 
-  resetWorld():void{
+  resetWorld(): void {
     this.service.deleteWorld();
     window.location.reload();
   }
 
+  checkAllunlock(){
+    this.world.allunlocks.pallier.forEach(u => {
+      this.productsComponent.forEach(p => p.calcUpgrade(u));
+    });
+  }
 }

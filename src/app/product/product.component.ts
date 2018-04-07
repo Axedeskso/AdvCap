@@ -34,7 +34,6 @@ export class ProductComponent implements OnInit {
   set qtmulti(value: string) {
     this._qtmulti = value;
     if (this._qtmulti && this.product) {
-      var prix = this.calcMaxCanBuy();
       this._qtmulti = this.calcMaxCanBuy()[0];
       this._cout = this.calcMaxCanBuy()[1];
     }
@@ -54,39 +53,39 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.progressbar = new ProgressBar.Line(this.progressBarItem.nativeElement, { strokeWidth: 50, color: '#28a745' });
-    setInterval(() => { this.calcScore(); this.calcQuantite(); this.calcMaxCanBuy(); }, 10);
+    setInterval(() => {
+      this.calcScore();this.calcQuantite();
+    }, 100);
   }
 
   achat(): void {
     var qt = this.calcMaxCanBuy()[0];
     this.product.quantite += qt;
+    this.product.palliers.pallier.forEach(u => {
+      if (u.unlocked == false) {
+        if (this.product.quantite >= u.seuil) {
+          u.unlocked = true;
+          switch (u.typeratio) {
+            case "GAIN":
+              this.product.revenu = this.product.revenu * u.ratio;
+              break;
+            case "VITESSE":
+              this.product.vitesse = Math.round(this.product.vitesse / u.ratio);
+              this.product.timeleft = Math.round(this.product.timeleft / u.ratio);
+              if (this.product.timeleft > 0)
+                this.progressbar.animate(1, { duration: this.product.timeleft });
+              break;
+          }
+          this.toasterService.pop('success', u.name, this.product.name + " " + u.typeratio + " x" + u.ratio);
+        }
+      }
+    });
     this.notifyAchat.emit(this._cout);
     this.service.putProduct(this.product);
-
-    this.product.palliers.pallier.forEach(u => {
-    if (u.unlocked == false) {
-      if (this.product.quantite >= u.seuil) {
-        u.unlocked = true;
-        switch (u.typeratio) {
-          case "GAIN":
-            this.product.revenu = this.product.revenu * u.ratio;
-            break;
-          case "VITESSE":
-            this.product.vitesse = Math.round(this.product.vitesse / u.ratio);
-            this.product.timeleft = Math.round(this.product.timeleft / u.ratio);
-            if (this.product.timeleft > 0)
-              this.progressbar.animate(1, { duration: this.product.timeleft });
-            break;
-        }
-        this.toasterService.pop('success', u.name, this.product.name + " " + u.typeratio + " x" + u.ratio);
-      }
-    }
-  });
-
   }
 
   production(): void {
-    if (this.product.timeleft == 0 && this.product.quantite > 0) {
+    if (this.product.timeleft == 0 && this.product.quantite > 0 && this.product) {
       this.progressbar.animate(1, { duration: this.product.vitesse });
       this.product.timeleft = this.product.vitesse;
       this.lastupdate = Date.now();
@@ -95,7 +94,7 @@ export class ProductComponent implements OnInit {
 
   calcScore(): void {
     if (this.product.timeleft != 0) {
-      this.product.timeleft -= Date.now() - this.lastupdate;
+      this.product.timeleft -= (Date.now() - this.lastupdate);
       this.lastupdate = Date.now();
       if (this.product.timeleft <= 0) {
         this.product.timeleft = 0;
@@ -111,33 +110,52 @@ export class ProductComponent implements OnInit {
   }
 
   calcQuantite(): void {
+    this._qtmulti = this.calcMaxCanBuy()[0];
     this._cout = this.calcMaxCanBuy()[1];
   }
 
   calcMaxCanBuy(): any {
     var c = this.product.cout;
-    var q = 1 + this.product.croissance / 100;
+    var q = this.product.croissance;
     if (this._qtmulti == "MAX") {
       var i = 0;
       var p = 0;
       do {
         i++;
-        p = this.product.cout * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, i)) / (1 - q));
+        p = c * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, i)) / (1 - q));
       } while (p < this.money);
       if (i > 1) {
         i--;
-        p = this.product.cout * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, i)) / (1 - q));
+        p = c * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, i)) / (1 - q));
       }
       return [i, p];
     }
     else {
-      this.product.cout = c;
-      p = this.product.cout * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, this._qtmulti)) / (1 - q));
+      p = c * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, this._qtmulti)) / (1 - q));
       return [this._qtmulti, p];
     }
+    
   }
 
-  //calcUpgrade(Pallier pallier){
-
-  //}
+  calcUpgrade(p: Pallier) {
+  /*  if (p.unlocked == false) {
+      if (this.product.quantite >= p.seuil) {
+        p.unlocked = true;
+        switch (p.typeratio) {
+          case "GAIN":
+            this.product.revenu *= p.ratio;
+            break;
+          case "VITESSE":
+            this.product.vitesse = Math.round(this.product.vitesse / p.ratio);
+            this.product.timeleft = Math.round(this.product.timeleft / p.ratio);
+            break;
+        }
+        this.toasterService.pop("success" + p.typeratio + " x" + p.ratio);
+        console.log("ALLUNLOCK : " +p.name);
+      }
+      else
+        console.log("NOT ALLUNLOCK : ");
+        return false;
+    }*/
+  }
 }

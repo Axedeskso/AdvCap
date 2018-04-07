@@ -8,8 +8,7 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form>
-      <input #box type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged(box.value)" placeholder="Pseudo"
-        value="{{pseudo}}" />
+      <input type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged()" value="{{username}}"/>
     </form>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -223,7 +222,7 @@
     <small>Hire one to run your business for you, or to maximize efficiency, all for just one easy payment ! Salary schmalary !</small>
   </div>
   <div class="app-modal-body">
-    <div *ngFor="let manager of managers">
+    <div *ngFor="let manager of world.managers.pallier">
       <div *ngIf="manager.unlocked == false" class="card border-success">
         <div class="row">
           <div class="col-md-3">

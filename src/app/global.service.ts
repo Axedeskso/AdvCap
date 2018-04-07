@@ -18,6 +18,13 @@ export class GlobalService {
     return this.url;
   }
 
+  getUser(){
+    return this.user;
+  }
+  setUser(user){
+    this.user=user;
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     return Promise.reject(error.message || error);
@@ -45,9 +52,7 @@ export class GlobalService {
   putAngel(angel: Pallier) {
     return this.http.put(this.url + this.geneWbR + "angelupgrade", angel, { headers: this.setHeaders(this.user) }).toPromise();
   }
-  
   deleteWorld(){
     return this.http.delete(this.url + this.geneWbR + "world", { headers: this.setHeaders(this.user)} );
   }
-
 }
