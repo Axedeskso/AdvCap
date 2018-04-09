@@ -28,6 +28,12 @@ export class ProductComponent implements OnInit {
   @Input()
   set prod(value: Product) {
     this.product = value;
+    if (this.product && this.product.timeleft > 0) {
+      this.lastupdate = Date.now();
+      let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
+      this.progressbar.set(progress);
+      this.progressbar.animate(1, { duration: this.product.timeleft });
+    }
   }
 
   @Input()
@@ -54,7 +60,7 @@ export class ProductComponent implements OnInit {
   ngOnInit() {
     this.progressbar = new ProgressBar.Line(this.progressBarItem.nativeElement, { strokeWidth: 50, color: '#28a745' });
     setInterval(() => {
-      this.calcScore();this.calcQuantite();
+      this.calcScore(); this.calcQuantite();
     }, 100);
   }
 
@@ -134,28 +140,28 @@ export class ProductComponent implements OnInit {
       p = c * Math.pow(q, this.product.quantite) * ((1 - Math.pow(q, this._qtmulti)) / (1 - q));
       return [this._qtmulti, p];
     }
-    
+
   }
 
   calcUpgrade(p: Pallier) {
-  /*  if (p.unlocked == false) {
-      if (this.product.quantite >= p.seuil) {
-        p.unlocked = true;
-        switch (p.typeratio) {
-          case "GAIN":
-            this.product.revenu *= p.ratio;
-            break;
-          case "VITESSE":
-            this.product.vitesse = Math.round(this.product.vitesse / p.ratio);
-            this.product.timeleft = Math.round(this.product.timeleft / p.ratio);
-            break;
+    /*  if (p.unlocked == false) {
+        if (this.product.quantite >= p.seuil) {
+          p.unlocked = true;
+          switch (p.typeratio) {
+            case "GAIN":
+              this.product.revenu *= p.ratio;
+              break;
+            case "VITESSE":
+              this.product.vitesse = Math.round(this.product.vitesse / p.ratio);
+              this.product.timeleft = Math.round(this.product.timeleft / p.ratio);
+              break;
+          }
+          this.toasterService.pop("success" + p.typeratio + " x" + p.ratio);
+          console.log("ALLUNLOCK : " +p.name);
         }
-        this.toasterService.pop("success" + p.typeratio + " x" + p.ratio);
-        console.log("ALLUNLOCK : " +p.name);
-      }
-      else
-        console.log("NOT ALLUNLOCK : ");
-        return false;
-    }*/
+        else
+          console.log("NOT ALLUNLOCK : ");
+          return false;
+      }*/
   }
 }
