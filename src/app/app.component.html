@@ -8,12 +8,12 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form>
-      <input type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged()" value="{{username}}"/>
+      <input type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged()" value="{{username}}" />
     </form>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <div class="nav-link">
-          <span  class="text-warning">
+          <span class="text-warning">
             <span [innerHTML]="world.money | bigvalue"></span>$
           </span>
         </div>
@@ -103,38 +103,40 @@
   <div class="app-modal-body">
     <div *ngFor="let product of world.products.product">
       <div *ngFor="let pallier of product.palliers.pallier">
-      <div class="card border-success">
-        <div class="row">
-          <div class="col-md-3">
-            <img class="card-img-top" [attr.src]="server+pallier.logo">
-          </div>
-          <div class="col-md-9">
-            <div class="row mt-1">
-              <div class="col-md-12">
-                <h5 class="text-center text-success">{{pallier.name}}</h5>
-              </div>
-            </div>
+        <div *ngIf="pallier.unlocked == false ">
+          <div class="card border-success">
             <div class="row">
-              <div class="col-md-12">
-                <div class="text-center text-secondary">
-                  <span> {{pallier.typeratio}} x{{pallier.ratio}}</span>
+              <div class="col-md-3">
+                <img class="card-img-top" [attr.src]="server+pallier.logo">
+              </div>
+              <div class="col-md-9">
+                <div class="row mt-1">
+                  <div class="col-md-12">
+                    <h5 class="text-center text-success">{{pallier.name}}</h5>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <h5 class="text-center text-warning">
-                  <span [innerHTML]="pallier.seuil"></span>
-                </h5>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="text-center text-secondary">
+                      <span> {{product.name}} : {{pallier.typeratio}} x{{pallier.ratio}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <h5 class="text-center text-warning">
+                      <span [innerHTML]="pallier.seuil"></span>
+                    </h5>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      </div>
     </div>
-    <!--<div *ngFor="let pallier of allunlocks">
-      <div *ngIf="pallier.idcible == 0 && pallier.unlocked == false" class="card border-success">
+    <div *ngFor="let pallier of world.allunlocks.pallier">
+      <div *ngIf="pallier.unlocked == false" class="card border-success">
         <div class="row">
           <div class="col-md-3">
             <img class="card-img-top" [attr.src]="server+pallier.logo">
@@ -162,7 +164,7 @@
           </div>
         </div>
       </div>
-    </div>-->
+    </div>
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-danger" (click)="unlocksModal.hide()">Close</button>
@@ -315,7 +317,7 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <h5 class="text-center text-success" >Claimed With Restart</h5>
+              <h5 class="text-center text-success">Claimed With Restart</h5>
             </div>
           </div>
         </div>

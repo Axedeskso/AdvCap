@@ -144,24 +144,8 @@ export class ProductComponent implements OnInit {
   }
 
   calcUpgrade(p: Pallier) {
-    /*  if (p.unlocked == false) {
-        if (this.product.quantite >= p.seuil) {
-          p.unlocked = true;
-          switch (p.typeratio) {
-            case "GAIN":
-              this.product.revenu *= p.ratio;
-              break;
-            case "VITESSE":
-              this.product.vitesse = Math.round(this.product.vitesse / p.ratio);
-              this.product.timeleft = Math.round(this.product.timeleft / p.ratio);
-              break;
-          }
-          this.toasterService.pop("success" + p.typeratio + " x" + p.ratio);
-          console.log("ALLUNLOCK : " +p.name);
-        }
-        else
-          console.log("NOT ALLUNLOCK : ");
-          return false;
-      }*/
+      if(this.product.quantite < p.seuil) {
+        return true;
+    }
   }
 }

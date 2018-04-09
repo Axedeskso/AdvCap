@@ -34,9 +34,9 @@ export class AppComponent {
     this.server = service.getServeur();
     this.username = localStorage.getItem("username");
     this.service.setUser(this.username);
-    
+
     //if (this.username == "" || this.username == null) {
-      //this.initiateUser();
+    //this.initiateUser();
     //}
     //this.theme = "msc/theme.mp3"; 
     this.service.getWorld().then(data => {
@@ -57,11 +57,11 @@ export class AppComponent {
 
   onUsernameChanged(): void {
     //if (this.username == "" || this.username == "null") {
-      //this.initiateUser();
+    //this.initiateUser();
     //} else {
-      localStorage.setItem("username", this.username);
-      this.service.setUser(this.username);
-      this.service.getWorld();
+    localStorage.setItem("username", this.username);
+    this.service.setUser(this.username);
+    this.service.getWorld();
     //}
   }
 
@@ -92,10 +92,7 @@ export class AppComponent {
   onBuy(p): void {
     this.world.money -= p;
     this.notify();
-    //this.world.allunlocks.pallier.forEach(tu => {
-      //this.productsComponent.forEach(p => p.calcUpgrade(tu));
-    ///});;
-
+    this.checkAllunlock();
   }
 
   buyManager(m): void {
@@ -136,9 +133,32 @@ export class AppComponent {
     window.location.reload();
   }
 
-  checkAllunlock(){
+  checkAllunlock() {
     this.world.allunlocks.pallier.forEach(u => {
-      this.productsComponent.forEach(p => p.calcUpgrade(u));
+      if (u.unlocked == false) {
+        var all = false;
+        this.productsComponent.forEach(p => {
+          if (p.calcUpgrade(u)) {
+            all = true;
+          }
+        });
+        if (!all) {
+          u.unlocked = true;
+          switch (u.typeratio) {
+            case "GAIN":
+              this.world.products.product.forEach(p => {
+                p.revenu *= u.ratio;
+              });
+              break;
+            case "VITESSE":
+              this.world.products.product.forEach(p => {
+                p.vitesse = Math.floor(p.vitesse / u.ratio);
+                p.timeleft = Math.floor(p.timeleft / u.ratio);
+              });
+          }
+          this.toasterService.pop('success', "ALL " + u.typeratio + " x" + u.ratio);
+        }
+      }
     });
   }
 }
