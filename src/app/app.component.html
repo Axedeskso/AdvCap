@@ -31,6 +31,9 @@
         <a data-toggle="modal" (click)="unlocksModal.show()">
           <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Unlocks</li>
         </a>
+        <a data-toggle="modal" (click)="allunlocksModal.show()">
+            <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">All Unlocks</li>
+          </a>
         <a data-toggle="modal" (click)="upgradesModal.show()">
           <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Upgrades
             <span class="badge badge-warning">{{notifUp}}</span>
@@ -171,13 +174,57 @@
   </div>
 </app-modal>
 
+<app-modal #allunlocksModal>
+    <div class="app-modal-header">
+      <h4 class="modal-title">All Unlocks</h4>
+      <small>Want to maximize profits ? Look no futher ! Get your investments to these quotas to unlocks sweet profits bonuses ! It's
+        Recursiveriffic !</small>
+    </div>
+    <div class="app-modal-body">
+      <div *ngFor="let pallier of world.allunlocks.pallier">
+        <div *ngIf="pallier.unlocked == false" class="card border-success">
+          <div class="row">
+            <div class="col-md-3">
+              <img class="card-img-top" [attr.src]="server+pallier.logo">
+            </div>
+            <div class="col-md-9">
+              <div class="row mt-1">
+                <div class="col-md-12">
+                  <h5 class="text-center text-success">{{pallier.name}}</h5>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="text-center text-secondary">
+                    <span *ngIf="pallier.idcible == 0">ALL {{pallier.typeratio}} x{{pallier.ratio}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h5 class="text-center text-warning">
+                    <span [innerHTML]="pallier.seuil"></span>
+                  </h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="app-modal-footer">
+      <button type="button" class="btn btn-danger" (click)="unlocksModal.hide()">Close</button>
+    </div>
+  </app-modal>
+  
+
 <app-modal #upgradesModal>
   <div class="app-modal-header">
     <h4 class="modal-title">Upgrades</h4>
     <small>Purchase these fine quality upgrades to give your business a boost !</small>
   </div>
   <div class="app-modal-body">
-    <div *ngFor="let upgrade of upgrades">
+    <div *ngFor="let upgrade of world.upgrades.pallier">
       <div *ngIf="upgrade.unlocked == false" class="card border-success">
         <div class="row">
           <div class="col-md-3">
@@ -190,12 +237,14 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-12">
-                <div class="text-center text-secondary">Run
-                  <span>{{upgrade.idcible}}</span>
+                <div class="col-md-12">
+                  <div class="text-center text-secondary">
+                    <!--<span *ngIf="pallier.idcible == 0">All Products Profit x{{upgrade.ratio}}</span>-->
+                    <!--<span *ngIf="pallier.idcible == -1">Angel effectiveness x{{upgrade.ratio}}</span>-->
+                    <span>{{upgrade.idcible}} x{{upgrade.ratio}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
             <div class="row">
               <div class="col-md-12">
                 <h5 class="text-center text-warning">
@@ -312,7 +361,7 @@
         <div class="card border-success">
           <div class="row">
             <div class="col-md-12 text-center">
-              <b class="text-warning " [innerHTML]="world.totalangels | bigvalue"> </b>
+              <b class="text-warning ">{{angedispo}} </b>
             </div>
           </div>
           <div class="row">

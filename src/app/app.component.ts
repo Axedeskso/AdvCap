@@ -27,6 +27,7 @@ export class AppComponent {
   qtmulti: any;
   notifM = "";
   notifUp = "";
+  angedispo:any;
 
   @ViewChildren(ProductComponent) productsComponent: QueryList<ProductComponent>;
 
@@ -38,12 +39,13 @@ export class AppComponent {
     //if (this.username == "" || this.username == null) {
     //this.initiateUser();
     //}
-    //this.theme = "msc/theme.mp3"; 
+    this.theme = "msc/theme.mp3"; 
     this.service.getWorld().then(data => {
       this.world = data;
       this.title = this.world.name;
     });
     this.qtmulti = 1;
+    this.angedispo =5;
     this.notify();
   }
 
@@ -86,6 +88,7 @@ export class AppComponent {
     this.world.money += (p.revenu * p.quantite) * (1 + this.world.activeangels * this.world.angelbonus / 100);
     this.world.score += (p.revenu * p.quantite) * (1 + this.world.activeangels * this.world.angelbonus / 100);
     this.notify();
+    this.angedispo = Math.round(150 * Math.sqrt(this.world.score / Math.pow(10, 15)) - this.world.totalangels);
     this.service.putProduct(p);
   }
 
@@ -122,8 +125,18 @@ export class AppComponent {
   buyUpgrade(u): void {
     this.world.money -= u.seuil;
     u.unlocked = true;
-    this.world.products.product[u.idcible - 1].managerUnlocked = true;
-    this.toasterService.pop('success', "Upgrade Hired !", u.name + " /-\ " + this.world.products.product[u.idcible - 1].name);
+    if(u.idcible == 0){
+      this.world.products.product.forEach(p => {
+        p.revenu *= u.ratio;
+      });
+      this.toasterService.pop('success', u.name, "All profits x" + u.ratio  );
+    }else if(u.idcible == -1){
+      this.world.angelbonus += u.ratio;
+      this.toasterService.pop('success', u.name, "Angels efficness + " + u.ratio +"%");
+    }else{
+      this.world.products.product[u.idcible - 1].revenu *= u.ratio;
+      this.toasterService.pop('success', u.name, "Profits x" + u.ratio +" for "+this.world.products.product[u.idcible - 1].name );
+    }   
     this.service.putUpgrade(u);
     this.notify();
   }

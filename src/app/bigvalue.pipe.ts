@@ -21,9 +21,9 @@ export class BigvaluePipe implements PipeTransform {
       res = (value / 1000000000000000).toFixed(2) + "P ";
     else if (value >= 1000000000000000000 && value < 1000000000000000000000)
       res = (value / 1000000000000000000).toFixed(2) + "E ";
-    //else if (value >= 1000000000000000000)
-      //res = value.toFixed(2);
-      //res = res.replace(/e\+(.*)/, " 10<sup>$1</sup>");
+    else if (value >= 1000000000000000000)
+      res = value.toFixed(2);
+      res = res.replace(/e\+(.*)/, " 10<sup>$1</sup>");
     return res;
   }
 
