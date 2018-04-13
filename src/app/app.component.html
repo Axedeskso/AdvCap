@@ -8,7 +8,8 @@
   </a>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <form>
-      <input type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged()" value="{{username}}" />
+      <input #box type="text" class="form-control" [(ngModel)]="username" (change)="onUsernameChanged(box.value)" value="{{username}}"
+      />
     </form>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -31,9 +32,6 @@
         <a data-toggle="modal" (click)="unlocksModal.show()">
           <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Unlocks</li>
         </a>
-        <a data-toggle="modal" (click)="allunlocksModal.show()">
-            <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">All Unlocks</li>
-          </a>
         <a data-toggle="modal" (click)="upgradesModal.show()">
           <li class="list-group-item d-flex justify-content-between align-items-center bg-success text-white mb-1">Upgrades
             <span class="badge badge-warning">{{notifUp}}</span>
@@ -174,50 +172,6 @@
   </div>
 </app-modal>
 
-<app-modal #allunlocksModal>
-    <div class="app-modal-header">
-      <h4 class="modal-title">All Unlocks</h4>
-      <small>Want to maximize profits ? Look no futher ! Get your investments to these quotas to unlocks sweet profits bonuses ! It's
-        Recursiveriffic !</small>
-    </div>
-    <div class="app-modal-body">
-      <div *ngFor="let pallier of world.allunlocks.pallier">
-        <div *ngIf="pallier.unlocked == false" class="card border-success">
-          <div class="row">
-            <div class="col-md-3">
-              <img class="card-img-top" [attr.src]="server+pallier.logo">
-            </div>
-            <div class="col-md-9">
-              <div class="row mt-1">
-                <div class="col-md-12">
-                  <h5 class="text-center text-success">{{pallier.name}}</h5>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="text-center text-secondary">
-                    <span *ngIf="pallier.idcible == 0">ALL {{pallier.typeratio}} x{{pallier.ratio}}</span>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-12">
-                  <h5 class="text-center text-warning">
-                    <span [innerHTML]="pallier.seuil"></span>
-                  </h5>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="app-modal-footer">
-      <button type="button" class="btn btn-danger" (click)="unlocksModal.hide()">Close</button>
-    </div>
-  </app-modal>
-  
-
 <app-modal #upgradesModal>
   <div class="app-modal-header">
     <h4 class="modal-title">Upgrades</h4>
@@ -237,14 +191,14 @@
               </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                  <div class="text-center text-secondary">
-                    <!--<span *ngIf="pallier.idcible == 0">All Products Profit x{{upgrade.ratio}}</span>-->
-                    <!--<span *ngIf="pallier.idcible == -1">Angel effectiveness x{{upgrade.ratio}}</span>-->
-                    <span>{{upgrade.idcible}} x{{upgrade.ratio}}</span>
-                  </div>
+              <div class="col-md-12">
+                <div class="text-center text-secondary">
+                  <!--<span *ngIf="pallier.idcible == 0">All Products Profit x{{upgrade.ratio}}</span>-->
+                  <!--<span *ngIf="pallier.idcible == -1">Angel effectiveness x{{upgrade.ratio}}</span>-->
+                  <span>{{upgrade.idcible}} x{{upgrade.ratio}}</span>
                 </div>
               </div>
+            </div>
             <div class="row">
               <div class="col-md-12">
                 <h5 class="text-center text-warning">
@@ -258,6 +212,42 @@
         </div>
       </div>
     </div>
+
+    <div *ngFor="let anges of world.angelupgrades.pallier">
+      <div *ngIf="anges.unlocked == false" class="card border-success">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="card-img-top" [attr.src]="server+anges.logo">
+          </div>
+          <div class="col-md-6">
+            <div class="row mt-1">
+              <div class="col-md-12">
+                <b class="text-center text-success">{{anges.name}}</b>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="text-center text-secondary">
+                  <span></span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <h5 class="text-center text-warning">
+                  <span [innerHTML]="anges.seuil | bigvalue"></span> anges</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 pr-4">
+            <button type="button" class="btn btn-block btn-danger" [disabled]="world.totalangels < anges.seuil">Hire !</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
   <div class="app-modal-footer">
     <button type="button" class="btn btn-default" (click)="upgradesModal.hide()">Close</button>

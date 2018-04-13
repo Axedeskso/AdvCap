@@ -27,7 +27,7 @@ export class AppComponent {
   qtmulti: any;
   notifM = "";
   notifUp = "";
-  angedispo:any;
+  angedispo: any;
 
   @ViewChildren(ProductComponent) productsComponent: QueryList<ProductComponent>;
 
@@ -35,17 +35,17 @@ export class AppComponent {
     this.server = service.getServeur();
     this.username = localStorage.getItem("username");
     this.service.setUser(this.username);
+    if (this.username == null || this.username == "") {
+      this.initiateUser();
+    }
 
-    //if (this.username == "" || this.username == null) {
-    //this.initiateUser();
-    //}
-    this.theme = "msc/theme.mp3"; 
+    this.theme = "msc/theme.mp3";
     this.service.getWorld().then(data => {
       this.world = data;
       this.title = this.world.name;
     });
     this.qtmulti = 1;
-    this.angedispo =5;
+    this.angedispo = 5;
     this.notify();
   }
 
@@ -57,14 +57,15 @@ export class AppComponent {
     this.service.setUser(this.username);
   }
 
-  onUsernameChanged(): void {
-    //if (this.username == "" || this.username == "null") {
-    //this.initiateUser();
-    //} else {
+  onUsernameChanged(user): void {
+    this.username = user;
+    if (this.username == null || this.username == "") {
+      this.initiateUser();
+    }
     localStorage.setItem("username", this.username);
-    this.service.setUser(this.username);
+    this.service.user = this.username;
+    this.toasterService.pop('success',"Nouvel utilisateur", "Bonjour "+this.username+" !");
     this.service.getWorld();
-    //}
   }
 
   upMulti(): void {
@@ -125,18 +126,18 @@ export class AppComponent {
   buyUpgrade(u): void {
     this.world.money -= u.seuil;
     u.unlocked = true;
-    if(u.idcible == 0){
+    if (u.idcible == 0) {
       this.world.products.product.forEach(p => {
         p.revenu *= u.ratio;
       });
-      this.toasterService.pop('success', u.name, "All profits x" + u.ratio  );
-    }else if(u.idcible == -1){
+      this.toasterService.pop('success', u.name, "All profits x" + u.ratio);
+    } else if (u.idcible == -1) {
       this.world.angelbonus += u.ratio;
-      this.toasterService.pop('success', u.name, "Angels efficness + " + u.ratio +"%");
-    }else{
+      this.toasterService.pop('success', u.name, "Angels efficness + " + u.ratio + "%");
+    } else {
       this.world.products.product[u.idcible - 1].revenu *= u.ratio;
-      this.toasterService.pop('success', u.name, "Profits x" + u.ratio +" for "+this.world.products.product[u.idcible - 1].name );
-    }   
+      this.toasterService.pop('success', u.name, "Profits x" + u.ratio + " for " + this.world.products.product[u.idcible - 1].name);
+    }
     this.service.putUpgrade(u);
     this.notify();
   }
